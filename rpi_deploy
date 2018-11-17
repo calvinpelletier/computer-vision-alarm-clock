@@ -1,0 +1,2 @@
+scp -r /home/calvin/projects/cv-alarm-clock root@10.0.0.232:/root/cv-alarm-clock
+ssh root@10.0.0.232 -t "killall python3 && service pilight restart && python3 /root/cv-alarm-clock/live_cnn.py"

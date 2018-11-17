@@ -1,1 +1,1 @@
-# computer-vision-alarm-clock
+# cv-alarm-clock
