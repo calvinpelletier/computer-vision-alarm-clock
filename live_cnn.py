@@ -18,25 +18,25 @@ from data_preprocessor import TorchDataset, load_mean_std_dev
 IS_RPI = os.environ['IS_RASPBERRYPI'].lower() == 'true'
 
 if IS_RPI:
-    MODEL_PATH = '/root/cv-alarm-clock/best_model.pt'
+    MODEL_PATH = '/root/computer-vision-alarm-clock/best_model.pt'
     IMG_PATH = '/root/cv-alarm-clock-data/live.jpeg'
     UNLABELED_PATH = '/root/cv-alarm-clock-data/main1/unlabeled'
-    ALARM_PATH = '/root/cv-alarm-clock/alarm.wav'
-    SAVE_EVERY_N_INTERVALS = 0
+    ALARM_PATH = '/root/computer-vision-alarm-clock/alarm.wav'
 else:
-    MODEL_PATH = '/home/calvin/projects/cv-alarm-clock/best_model.pt'
+    MODEL_PATH = '/home/calvin/projects/computer-vision-alarm-clock/best_model.pt'
     IMG_PATH = '/home/calvin/storage/cv-alarm-clock-data/live.jpeg'
     UNLABELED_PATH = '/home/calvin/storage/cv-alarm-clock-data/main1/unlabeled'
-    ALARM_PATH = '/home/calvin/projects/cv-alarm-clock/alarm.wav'
+    ALARM_PATH = '/home/calvin/projects/computer-vision-alarm-clock/alarm.wav'
 
 LIVE_BS = 9
 TOTAL_CLASSES = 2
-INTERVAL = 2
+INTERVAL = 3
 CROP_Y1 = 45
 CROP_Y2 = 145
 CROP_X1 = 30
 CROP_X2 = 291
 THRESHOLD = 1.
+# THRESHOLD = 100.
 
 ACTIVE_START = 750
 ACTIVE_END = 830
@@ -47,11 +47,15 @@ SAVE_END = 800
 SAVE_EVERY_N_INTERVALS = 2 # 0 for no save
 ALWAYS_SAVE = False
 
+DEBUG = False
+
 def live_data_preprocessor():
     x_total = []
     y_total = []
 
     img = cv2.imread(IMG_PATH, cv2.IMREAD_GRAYSCALE)[CROP_Y1:CROP_Y2, CROP_X1:CROP_X2]
+    if DEBUG:
+        cv2.imwrite('test.png', img)
     h, w = img.shape
     subimage_h = h
     subimage_w = h
@@ -65,9 +69,11 @@ def live_data_preprocessor():
     return x_live, y_live
 
 
-# https://discuss.pytorch.org/t/model-train-and-model-eval-vs-model-and-model-eval/5744/2
 model = c5pc5pc5pfn(c1=5,c2=10,c3=10,f1=100)
-model.load_state_dict(torch.load(MODEL_PATH))
+if IS_RPI:
+    model.load_state_dict(torch.load(MODEL_PATH, map_location='cpu'))
+else:
+    model.load_state_dict(torch.load(MODEL_PATH))
 model.eval()
 
 train_means, train_stds = load_mean_std_dev()

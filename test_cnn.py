@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from models import *
 from data_preprocessor import TorchDataset, load_mean_std_dev
 
-MODEL_PATH = '/home/calvin/projects/cv-alarm-clock/best_model.pt'
+MODEL_PATH = '/home/calvin/projects/computer-vision-alarm-clock/best_model.pt'
 TEST_FACE_FOLDER = '/home/calvin/storage/cv-alarm-clock-data/test1/face/'
 TEST_NON_FACE_FOLDER = '/home/calvin/storage/cv-alarm-clock-data/test1/non-face/'
 
