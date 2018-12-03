@@ -1,2 +1,2 @@
 scp -r /home/calvin/projects/computer-vision-alarm-clock root@10.0.0.232:/root/
-ssh root@10.0.0.232 -t "killall python3; service pilight restart; python3.6 /root/computer-vision-alarm-clock/live_cnn.py"
+ssh root@10.0.0.232 -t "killall python3; python3.6 /root/computer-vision-alarm-clock/live_cnn.py"
