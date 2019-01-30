@@ -7,17 +7,7 @@ from PIL import Image
 from random import random
 from collections import defaultdict
 
-
-def save_mean_std_dev(mean, std_dev):
-    with open('mean_std_dev.csv', 'w') as f:
-        f.write('{},{}\n'.format(mean, std_dev))
-    print('saved mean = {}, std_dev = {}'.format(mean, std_dev))
-
-def load_mean_std_dev():
-    with open('mean_std_dev.csv', 'r') as f:
-        mean, std_dev = [float(x) for x in f.readlines()[0].strip().split(',')]
-    print('loaded mean = {}, std_dev = {}'.format(mean, std_dev))
-    return ((mean,), (std_dev,))
+from util import save_mean_std_dev, load_mean_std_dev
 
 
 class TrainDataPreprocessor():

@@ -14,6 +14,7 @@ import light
 
 from models import *
 from data_preprocessor import TorchDataset, load_mean_std_dev
+from util import get_crop
 
 IS_RPI = os.environ['IS_RASPBERRYPI'].lower() == 'true'
 
@@ -31,21 +32,18 @@ else:
 LIVE_BS = 9
 TOTAL_CLASSES = 2
 INTERVAL = 3
-CROP_Y1 = 45
-CROP_Y2 = 145
-CROP_X1 = 30
-CROP_X2 = 291
+CROP_X1, CROP_X2, CROP_Y1, CROP_Y2 = get_crop()
 THRESHOLD = 1.
 # THRESHOLD = 100.
 
 ACTIVE_START = 750
 ACTIVE_END = 830
-ALWAYS_ACTIVE = False
+ALWAYS_ACTIVE = True
 
-SAVE_START = 740
+SAVE_START = 730
 SAVE_END = 800
-SAVE_EVERY_N_INTERVALS = 2 # 0 for no save
-ALWAYS_SAVE = False
+SAVE_EVERY_N_INTERVALS = 3 # 0 for no save
+ALWAYS_SAVE = True
 
 DEBUG = False
 
@@ -94,7 +92,10 @@ while 1:
                 subprocess.check_call('light on', shell=True)
             light_on = True
 
-        subprocess.check_call('streamer -f jpeg -o {}'.format(IMG_PATH), shell=True)
+        if IS_RPI:
+            subprocess.check_call('sudo streamer -f jpeg -o {}'.format(IMG_PATH), shell=True)
+        else:
+            subprocess.check_call('streamer -f jpeg -o {}'.format(IMG_PATH), shell=True)
         if SAVE_EVERY_N_INTERVALS != 0 and (int_time >= SAVE_START and int_time < SAVE_END or ALWAYS_SAVE):
             if count % SAVE_EVERY_N_INTERVALS == 0:
                 shutil.copyfile(IMG_PATH, os.path.join(UNLABELED_PATH, cur_datetime.strftime("%Y-%m-%d-%H-%M-%S") + '.jpeg'))

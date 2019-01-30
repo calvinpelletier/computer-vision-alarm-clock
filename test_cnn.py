@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 from models import *
 from data_preprocessor import TorchDataset, load_mean_std_dev
+from util import get_crop
 
 MODEL_PATH = '/home/calvin/projects/computer-vision-alarm-clock/best_model.pt'
 TEST_FACE_FOLDER = '/home/calvin/storage/cv-alarm-clock-data/test1/face/'
@@ -16,10 +17,7 @@ TEST_NON_FACE_FOLDER = '/home/calvin/storage/cv-alarm-clock-data/test1/non-face/
 
 LIVE_BS = 9
 TOTAL_CLASSES = 2
-CROP_Y1 = 45
-CROP_Y2 = 145
-CROP_X1 = 30
-CROP_X2 = 291
+CROP_X1, CROP_X2, CROP_Y1, CROP_Y2 = get_crop()
 
 def live_data_preprocessor(img_path):
     x_total = []

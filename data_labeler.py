@@ -2,16 +2,15 @@
 import os
 import cv2
 
+from util import get_crop
+
 VERSION = 'main1'
 UNLABELED_PATH = '/home/calvin/storage/cv-alarm-clock-data/{}/unlabeled'.format(VERSION)
 FACE_PATH = '/home/calvin/storage/cv-alarm-clock-data/{}/face.csv'.format(VERSION)
 NON_FACE_PATH = '/home/calvin/storage/cv-alarm-clock-data/{}/non-face.csv'.format(VERSION)
 LABELED_PATH = '/home/calvin/storage/cv-alarm-clock-data/{}/labeled'.format(VERSION)
 SKIPPED_PATH = '/home/calvin/storage/cv-alarm-clock-data/{}/skipped'.format(VERSION)
-CROP_Y1 = 45
-CROP_Y2 = 145
-CROP_X1 = 30
-CROP_X2 = 291
+CROP_X1, CROP_X2, CROP_Y1, CROP_Y2 = get_crop()
 
 count = 0
 face_x, face_y = None, None
