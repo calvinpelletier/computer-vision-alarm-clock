@@ -1,1 +1,1 @@
-streamer -f jpeg -o test.jpeg
+fswebcam -r 320x240 --no-banner test.jpeg
