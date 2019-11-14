@@ -21,15 +21,17 @@ from util import get_crop
 
 IS_RPI = os.environ['IS_RASPBERRYPI'].lower() == 'true'
 
+VERSION = 'main2'
+
 if IS_RPI:
     MODEL_PATH = '/root/computer-vision-alarm-clock/best_model.pt'
     IMG_PATH = '/root/cv-alarm-clock-data/live.jpeg'
-    UNLABELED_PATH = '/root/cv-alarm-clock-data/main1/unlabeled'
+    UNLABELED_PATH = '/root/cv-alarm-clock-data/{}/unlabeled'.format(VERSION)
     ALARM_PATH = '/root/computer-vision-alarm-clock/alarm.wav'
 else:
     MODEL_PATH = '/home/calvin/projects/computer-vision-alarm-clock/best_model.pt'
     IMG_PATH = '/home/calvin/storage/cv-alarm-clock-data/live.jpeg'
-    UNLABELED_PATH = '/home/calvin/storage/cv-alarm-clock-data/main1/unlabeled'
+    UNLABELED_PATH = '/home/calvin/storage/cv-alarm-clock-data/{}/unlabeled'.format(VERSION)
     ALARM_PATH = '/home/calvin/projects/computer-vision-alarm-clock/alarm.wav'
 
 LIVE_BS = 9
@@ -43,12 +45,12 @@ ACTIVE_END = 815
 ALWAYS_ACTIVE = False
 
 SAVE_START = 730
-SAVE_END = 800
-SAVE_EVERY_N_INTERVALS = 3 # 0 for no save
+SAVE_END = 1030
+SAVE_EVERY_N_INTERVALS = 10 # 0 for no save
 ALWAYS_SAVE = False
 
 LIGHT_START = 740
-LIGHT_END = 800
+LIGHT_END = 1030
 ALWAYS_LIGHT = False
 
 DEBUG = False
