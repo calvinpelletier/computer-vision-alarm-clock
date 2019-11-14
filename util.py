@@ -20,6 +20,10 @@ def load_mean_std_dev():
     return ((mean,), (std_dev,))
 
 def get_crop():
-    with open(MEAN_STD_DEV_PATH, 'r') as f:
+    with open(CROP_PATH, 'r') as f:
         x1, x2, y1, y2 = [int(x) for x in f.read().strip().split(',')]
-    return 30, 291, 45, 145
+    return x1, x2, y1, y2
+
+def set_crop(x1, x2, y1, y2):
+    with open(CROP_PATH, 'w') as f:
+        f.write('{},{},{},{}\n'.format(x1, x2, y1, y2))
