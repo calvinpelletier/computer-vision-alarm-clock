@@ -11,10 +11,11 @@ from util import save_mean_std_dev, load_mean_std_dev
 
 
 class TrainDataPreprocessor():
-    VERSIONS = [
-        ('main0', 1),
-        ('main1', 1),
-    ]
+    # VERSIONS = [
+    #     ('main0', 1),
+    #     ('main1', 1),
+    # ]
+    VERSIONS = [(c.VERSION, 1)]
 
     def __init__(self, percent_training=0.8):
         print('preprocessing data...')

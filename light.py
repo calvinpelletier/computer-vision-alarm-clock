@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import subprocess
 import sys
+from collections import defaultdict
 
 RF_ON = "156 488 167 469 498 142 170 470 480 167 488 152 488 152 169 472 161 481 156 483 169 471 169 472 165 477 476 168 482 156 167 4962 152 482 490 150 170 471 481 168 149 489 165 475 166 470 487 155 161 483 154 491 159 476 484 161 155 483 484 156 488 151 490 154 161 488 146 489 163 477 163 479 158 481 151 491 482 157 487 155 165 4960 153 491 481 152 168 472 486 157 158 488 154 481 167 475 484 159 158 486 151 485 166 473 485 157 158 485 480 159 488 153 482 162 154 488 159 479 166 476 163 476 161 483 152 489 479 158 487 155 170 4960 154 481 485 154 168 475 476 168 150 493 156 480 165 471 523 129 148 487 164 473 165 478 477 169 151 486 485 155 480 165 470 171 157 485 160 476 165 478 157 484 152 491 160 475 486 160 483 159 151 4969 165 472 485 162 154 491 474 164 161 478 162 479 153 497 472 158 165 478 159 483 150 489 485 156 164 476 482 158 479 169 470 167 161 480 163 476 164 478 157 488 150 486 176 464 490 153 473 173 151 4971 159 478 490 150 156 488 479 160 164 476 157 490 155 480 486 154 166 475 162 482 150 490 484 155 164 477 483 161 474 172 474 163 160 479 163 479 155 489 150 487 163 476 164 486 470 166 471 170 157 4970 148 490 484 155 163 476 482 160 157 488 151 509 133 494 462 168 159 480 164 477 162 477 477 168 150 491 480 160 483 157 479 164 153 493 151 486 160 478 162 480 157 526 110 491 482 161 481 160 158 5383"
 
@@ -12,28 +13,38 @@ def on():
 def off():
     subprocess.check_output('pilight-send -p raw -c "{}"'.format(RF_OFF), shell=True)
 
-# codes = []
-# with open('tmp.txt', 'r') as f:
-#     lines = f.readlines()
-#     for i, line in enumerate(lines):
-#         if line.startswith('Raw code:') and i < len(lines) - 1:
-#             codes.append(lines[i+1].strip())
-#
-# print(len(codes))
+codes = defaultdict(int)
+with open('tmp.txt', 'r') as f:
+    lines = f.readlines()
+    for i, line in enumerate(lines):
+        if line.startswith('Raw code:') and i < len(lines) - 1:
+            codes[lines[i+1].strip()] += 1
+print('n codes: {}'.format(len(codes.keys())))
+
+for code in codes.keys():
+    if code == RF_ON:
+        print('check0')
+    elif code == RF_OFF:
+        print('check1')
+
 # good_codes = []
-# for i, code in enumerate(codes):
-#     print('~~{}~~'.format(i))
+# for code in sorted(codes.keys(), key=lambda x: len(x)):
 #     print(code)
+#     print('n hits: {}'.format(codes[code]))
 #     subprocess.check_output('pilight-send -p raw -c "{}"'.format(code), shell=True)
 #     good = input('> ')
 #     if good:
 #         print('yay')
 #         good_codes.append(good)
+# print(good_codes)
 
-if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1] == 'on':
-        on()
-    elif len(sys.argv) > 1 and sys.argv[1] == 'off':
-        off()
-    else:
-        print('usage: python3 light.py on/off')
+# receive codes: service pilight stop && pilight-debug
+
+
+# if __name__ == '__main__':
+#     if len(sys.argv) > 1 and sys.argv[1] == 'on':
+#         on()
+#     elif len(sys.argv) > 1 and sys.argv[1] == 'off':
+#         off()
+#     else:
+#         print('usage: python3 light.py on/off')
