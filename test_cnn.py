@@ -12,8 +12,8 @@ from data_preprocessor import TorchDataset, load_mean_std_dev
 from util import get_crop
 
 MODEL_PATH = '/home/calvin/projects/computer-vision-alarm-clock/best_model.pt'
-TEST_FACE_FOLDER = '/home/calvin/storage/cv-alarm-clock-data/test1/face/'
-TEST_NON_FACE_FOLDER = '/home/calvin/storage/cv-alarm-clock-data/test1/non-face/'
+# TEST_FACE_FOLDER = '/home/calvin/storage/cv-alarm-clock-data/test2/face/'
+# TEST_NON_FACE_FOLDER = '/home/calvin/storage/cv-alarm-clock-data/test2/non-face/'
 
 LIVE_BS = 9
 TOTAL_CLASSES = 2
@@ -38,7 +38,7 @@ def live_data_preprocessor(img_path):
 
 
 # https://discuss.pytorch.org/t/model-train-and-model-eval-vs-model-and-model-eval/5744/2
-model = c5pc5pc5pfn(c1=5,c2=10,c3=10,f1=100)
+model = c11pc11pfn(c1=30,c2=11,f1=87)
 model.load_state_dict(torch.load(MODEL_PATH))
 model.eval()
 

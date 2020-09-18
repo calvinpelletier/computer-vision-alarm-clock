@@ -30,13 +30,13 @@ ACTIVE_START = 750
 ACTIVE_END = 815
 ALWAYS_ACTIVE = False
 
-SAVE_START = 730
-SAVE_END = 1030
+SAVE_START = 740
+SAVE_END = 830
 SAVE_EVERY_N_INTERVALS = 10 # 0 for no save
 ALWAYS_SAVE = False
 
 LIGHT_START = 740
-LIGHT_END = 1030
+LIGHT_END = 830
 ALWAYS_LIGHT = False
 
 DEBUG = False
@@ -61,7 +61,7 @@ def live_data_preprocessor():
 
     return x_live, y_live
 
-model = c5pc5pc5pfn(c1=5,c2=10,c3=10,f1=100)
+model = c11pc11pfn(c1=30,c2=11,f1=87)
 if c.IS_RPI:
     model.load_state_dict(torch.load(c.MODEL_PATH, map_location='cpu'))
 else:
@@ -112,17 +112,20 @@ while 1:
             count += 1
 
     if ALWAYS_ACTIVE or (int_time >= ACTIVE_START and int_time < ACTIVE_END):
-        x_live, y_live = live_data_preprocessor()
-        liveset = TorchDataset(x_live, y_live, live_transform)
-        liveloader = torch.utils.data.DataLoader(liveset, batch_size=LIVE_BS, shuffle=False, num_workers=2)
+        # x_live, y_live = live_data_preprocessor()
+        # liveset = TorchDataset(x_live, y_live, live_transform)
+        # liveloader = torch.utils.data.DataLoader(liveset, batch_size=LIVE_BS, shuffle=False, num_workers=2)
+        #
+        # confidences = []
+        # for x, y in liveloader:
+        #     output = model(Variable(x)).data
+        #     for out_of_bed, in_bed in output:
+        #         confidences.append(in_bed)
+        # confidence = max(confidences)
+        # print('{}: {}'.format(cur_datetime.strftime("%Y-%m-%d-%H-%M-%S"), confidence))
 
-        confidences = []
-        for x, y in liveloader:
-            output = model(Variable(x)).data
-            for out_of_bed, in_bed in output:
-                confidences.append(in_bed)
-        confidence = max(confidences)
-        print('{}: {}'.format(cur_datetime.strftime("%Y-%m-%d-%H-%M-%S"), confidence))
+        # tmp
+        confidence = 10000
 
         if confidence > THRESHOLD and not active:
             print('launching alarm')

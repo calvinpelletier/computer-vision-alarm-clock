@@ -65,7 +65,7 @@ def calculate_val_accuracy(valloader, is_gpu):
     return 100*correct/total, class_accuracy
 
 
-data = TrainDataPreprocessor(percent_training=0.99)
+data = TrainDataPreprocessor(percent_training=0.8)
 
 # mean and std dev per channel
 train_means, train_stds = load_mean_std_dev()
@@ -87,7 +87,7 @@ classes = ['out-of-bed', 'in-bed']
 
 FITNESS_SCALE = 4. # how favorably to treat highly fit models
 TARGET_MODELS_PER_GEN = 20
-N_GENS = 1
+N_GENS = 10
 BREAK_AFTER_X_EPOCHS_WITHOUT_MAX = 3
 MAX_EPOCHS = 40
 STRICT = True
@@ -99,13 +99,13 @@ print('index: {}'.format(idx))
 OUT_FILE = 'results{}.txt'.format(idx)
 
 initial_populations = [
-    [c5pc5pc5pfn(5, 10, 10, 100)],
-    [c5pc5pc5pf(5, 10, 10, 100)],
-    [c13pc13pf(6, 16, 50)],
-    [c13pc13pfn(6, 16, 50)],
-    [c13pc13pff(6, 16, 50, 20)],
-    [c5pc5pc5pff(5, 10, 10, 100, 20)],
-    [c5pc5pfff(5, 5, 300, 200, 100)],
+    # [c5pc5pc5pfn(5, 10, 10, 100)],
+    # [c5pc5pc5pf(5, 10, 10, 100)],
+    [c11pc11pf(6, 16, 50)],
+    [c11pc11pfn(6, 16, 50)],
+    [c11pc11pff(6, 16, 50, 20)],
+    # [c5pc5pc5pff(5, 10, 10, 100, 20)],
+    [c7pc7pfff(5, 5, 300, 200, 100)],
 ]
 population = initial_populations[idx]
 results = {}

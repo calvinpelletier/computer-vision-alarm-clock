@@ -2,9 +2,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 from random import randint
 
+import constants as c
+
 TOTAL_CLASSES = 2
 INITIAL_CHANNELS = 1
-IMAGE_SIZE = 100
 
 def mutate(obj):
     new_params = []
@@ -18,16 +19,20 @@ def mutate(obj):
 
 
 # ~~~~~ 2 CONV LAYERS ~~~~~
-class c5pc5pfff(nn.Module):
+class c7pc7pfff(nn.Module):
     def __init__(self, c1, c2, f1, f2, f3):
-        super(c5pc5pfff, self).__init__()
+        super(c7pc7pfff, self).__init__()
         self.params = [c1, c2, f1, f2, f3]
         self.param_types = ['c', 'c', 'f', 'f', 'f']
-        self.label = 'c5pc5pfff(c1={},c2={},f1={},f2={},f3={})'.format(*self.params)
-        self.conv1 = nn.Conv2d(3, c1, 5)
+        self.label = 'c7pc7pfff(c1={},c2={},f1={},f2={},f3={})'.format(*self.params)
+        self.conv1 = nn.Conv2d(3, c1, 7)
         self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(c1, c2, 5)
-        self.flat_size = c2 * 22 * 22
+        self.conv2 = nn.Conv2d(c1, c2, 7)
+        dim = ((c.IMAGE_SIZE - 6) / 2 - 6) / 2
+        if not dim.is_integer():
+            raise Exception('invalid dim for c7pc7pfff')
+        dim = int(dim)
+        self.flat_size = c2 * dim * dim
         self.fc_net = nn.Sequential(
             nn.Linear(self.flat_size, f1),
             nn.ReLU(inplace=True),
@@ -46,16 +51,20 @@ class c5pc5pfff(nn.Module):
         return x
 
 
-class c13pc13pf(nn.Module):
+class c11pc11pf(nn.Module):
     def __init__(self, c1, c2, f1):
-        super(c13pc13pf, self).__init__()
+        super(c11pc11pf, self).__init__()
         self.params = [c1, c2, f1]
         self.param_types = ['c', 'c', 'f']
-        self.label = 'c13pc13pf(c1={},c2={},f={})'.format(*self.params)
-        self.conv1 = nn.Conv2d(INITIAL_CHANNELS, c1, 13)
+        self.label = 'c11pc11pf(c1={},c2={},f={})'.format(*self.params)
+        self.conv1 = nn.Conv2d(INITIAL_CHANNELS, c1, 11)
         self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(c1, c2, 13)
-        self.flat_size = c2 * 16 * 16
+        self.conv2 = nn.Conv2d(c1, c2, 11)
+        dim = ((c.IMAGE_SIZE - 10) / 2 - 10) / 2
+        if not dim.is_integer():
+            raise Exception('invalid dim for c11pc11pf: {}'.format(dim))
+        dim = int(dim)
+        self.flat_size = c2 * dim * dim
         self.fc_net = nn.Sequential(
             nn.Linear(self.flat_size, f1),
             nn.ReLU(inplace=True),
@@ -70,18 +79,22 @@ class c13pc13pf(nn.Module):
         return x
 
 
-class c13pc13pfn(nn.Module):
+class c11pc11pfn(nn.Module):
     def __init__(self, c1, c2, f1):
-        super(c13pc13pfn, self).__init__()
+        super(c11pc11pfn, self).__init__()
         self.params = [c1, c2, f1]
         self.param_types = ['c', 'c', 'f']
-        self.label = 'c13pc13pfn(c1={},c2={},f={})'.format(*self.params)
-        self.conv1 = nn.Conv2d(INITIAL_CHANNELS, c1, 13)
+        self.label = 'c11pc11pfn(c1={},c2={},f={})'.format(*self.params)
+        self.conv1 = nn.Conv2d(INITIAL_CHANNELS, c1, 11)
         self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(c1, c2, 13)
+        self.conv2 = nn.Conv2d(c1, c2, 11)
         self.norm1 = nn.BatchNorm2d(c1)
         self.norm2 = nn.BatchNorm2d(c2)
-        self.flat_size = c2 * 16 * 16
+        dim = ((c.IMAGE_SIZE - 10) / 2 - 10) / 2
+        if not dim.is_integer():
+            raise Exception('invalid dim for c11pc11pfn')
+        dim = int(dim)
+        self.flat_size = c2 * dim * dim
         self.fc_net = nn.Sequential(
             nn.Linear(self.flat_size, f1),
             nn.ReLU(inplace=True),
@@ -96,16 +109,20 @@ class c13pc13pfn(nn.Module):
         return x
 
 
-class c13pc13pff(nn.Module):
+class c11pc11pff(nn.Module):
     def __init__(self, c1, c2, f1, f2):
-        super(c13pc13pff, self).__init__()
+        super(c11pc11pff, self).__init__()
         self.params = [c1, c2, f1, f2]
         self.param_types = ['c', 'c', 'f', 'f']
-        self.label = 'c13pc13pff(c1={},c2={},f1={},f2={})'.format(*self.params)
-        self.conv1 = nn.Conv2d(INITIAL_CHANNELS, c1, 13)
+        self.label = 'c11pc11pff(c1={},c2={},f1={},f2={})'.format(*self.params)
+        self.conv1 = nn.Conv2d(INITIAL_CHANNELS, c1, 11)
         self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(c1, c2, 13)
-        self.flat_size = c2 * 16 * 16
+        self.conv2 = nn.Conv2d(c1, c2, 11)
+        dim = ((c.IMAGE_SIZE - 10) / 2 - 10) / 2
+        if not dim.is_integer():
+            raise Exception('invalid dim for c11pc11pff')
+        dim = int(dim)
+        self.flat_size = c2 * dim * dim
         self.fc_net = nn.Sequential(
             nn.Linear(self.flat_size, f1),
             nn.ReLU(inplace=True),
@@ -134,7 +151,6 @@ class c5pc5pc5pf(nn.Module):
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(c1, c2, 5)
         self.conv3 = nn.Conv2d(c2, c3, 5)
-
         self.flat_size = c3 * 9 * 9
         self.fc_net = nn.Sequential(
             nn.Linear(self.flat_size, f1),

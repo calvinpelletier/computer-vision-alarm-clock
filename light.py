@@ -13,19 +13,19 @@ def on():
 def off():
     subprocess.check_output('pilight-send -p raw -c "{}"'.format(RF_OFF), shell=True)
 
-codes = defaultdict(int)
-with open('tmp.txt', 'r') as f:
-    lines = f.readlines()
-    for i, line in enumerate(lines):
-        if line.startswith('Raw code:') and i < len(lines) - 1:
-            codes[lines[i+1].strip()] += 1
-print('n codes: {}'.format(len(codes.keys())))
-
-for code in codes.keys():
-    if code == RF_ON:
-        print('check0')
-    elif code == RF_OFF:
-        print('check1')
+# codes = defaultdict(int)
+# with open('tmp.txt', 'r') as f:
+#     lines = f.readlines()
+#     for i, line in enumerate(lines):
+#         if line.startswith('Raw code:') and i < len(lines) - 1:
+#             codes[lines[i+1].strip()] += 1
+# print('n codes: {}'.format(len(codes.keys())))
+#
+# for code in codes.keys():
+#     if code == RF_ON:
+#         print('check0')
+#     elif code == RF_OFF:
+#         print('check1')
 
 # good_codes = []
 # for code in sorted(codes.keys(), key=lambda x: len(x)):
@@ -41,10 +41,10 @@ for code in codes.keys():
 # receive codes: service pilight stop && pilight-debug
 
 
-# if __name__ == '__main__':
-#     if len(sys.argv) > 1 and sys.argv[1] == 'on':
-#         on()
-#     elif len(sys.argv) > 1 and sys.argv[1] == 'off':
-#         off()
-#     else:
-#         print('usage: python3 light.py on/off')
+if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1] == 'on':
+        on()
+    elif len(sys.argv) > 1 and sys.argv[1] == 'off':
+        off()
+    else:
+        print('usage: python3 light.py on/off')

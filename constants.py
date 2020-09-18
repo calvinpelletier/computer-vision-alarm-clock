@@ -11,6 +11,7 @@ else:
 
 IS_HORIZONTAL_ALIGNMENT = False # interlaken used horizontal, hamlin used vertical
 VERSION = 'main2'
+IMAGE_SIZE = 130
 
 UNLABELED_PATH = '{}/{}/unlabeled'.format(ROOT_DATA_PATH, VERSION)
 FACE_PATH = '{}/{}/face.csv'.format(ROOT_DATA_PATH, VERSION)

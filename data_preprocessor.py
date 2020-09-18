@@ -8,6 +8,7 @@ from random import random
 from collections import defaultdict
 
 from util import save_mean_std_dev, load_mean_std_dev
+import constants as c
 
 
 class TrainDataPreprocessor():
@@ -35,8 +36,13 @@ class TrainDataPreprocessor():
                     parts = line.strip().split(',')
                     filename = parts[0]
                     x1, x2, y1, y2 = [int(val) for val in parts[1:]]
+                    if x2 - x1 != c.IMAGE_SIZE or y2 - y1 != c.IMAGE_SIZE:
+                        raise Exception('invalid image size in preprocessor: {},{},{},{}'.format(
+                            x1, x2, y1, y2))
                     if open_file != filename:
-                        open_img = cv2.imread(os.path.join(LABELED_PATH, filename), cv2.IMREAD_GRAYSCALE)
+                        open_img = cv2.imread(
+                            os.path.join(LABELED_PATH, filename),
+                            cv2.IMREAD_GRAYSCALE)
                         open_file = filename
                     if multiplier < 1:
                         if random() < multiplier:
@@ -55,7 +61,9 @@ class TrainDataPreprocessor():
                     filename = parts[0]
                     x1, x2, y1, y2 = [int(val) for val in parts[1:]]
                     if open_file != filename:
-                        open_img = cv2.imread(os.path.join(LABELED_PATH, filename), cv2.IMREAD_GRAYSCALE)
+                        open_img = cv2.imread(
+                            os.path.join(LABELED_PATH, filename),
+                            cv2.IMREAD_GRAYSCALE)
                         open_file = filename
                     if multiplier < 1:
                         if random() < multiplier:
@@ -90,9 +98,9 @@ class TrainDataPreprocessor():
 
 
 class TestDataPreprocessor():
-    LABELED_PATH = '/home/calvin/storage/cv-alarm-clock-data/test0/labeled'
-    FACE_PATH = '/home/calvin/storage/cv-alarm-clock-data/test0/face.csv'
-    NON_FACE_PATH = '/home/calvin/storage/cv-alarm-clock-data/test0/non-face.csv'
+    LABELED_PATH = '/home/calvin/storage/cv-alarm-clock-data/test2/labeled'
+    FACE_PATH = '/home/calvin/storage/cv-alarm-clock-data/test2/face.csv'
+    NON_FACE_PATH = '/home/calvin/storage/cv-alarm-clock-data/test2/non-face.csv'
 
     def __init__(self):
         print('preprocessing data...')
